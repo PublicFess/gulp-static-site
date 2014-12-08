@@ -1,0 +1,19 @@
+{
+  "name": "<%= name %>",
+  "author": "<%= author %>",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-jade": "*",
+    "tiny-lr": "*",
+    "gulp-stylus": "*",
+    "nib":"*",
+    "gulp-livereload": "*",
+    "gulp-imagemin": "*",
+    "gulp-concat": "*",
+    "gulp-webserver": "*",
+    "connect-livereload": "*"
+  }
+}

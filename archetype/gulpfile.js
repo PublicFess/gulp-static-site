@@ -3,19 +3,20 @@ var lr = require('tiny-lr')
   , jade = require('gulp-jade')
   , stylus = require('gulp-stylus')
   , concat = require('gulp-concat')
+  , imagemin = require('gulp-imagemin')
   , nib = require('nib')
   , livereload = require('gulp-livereload')
   , webserver = require('gulp-webserver')
   , server = lr();
 
 gulp.task('stylus', function() {
-  gulp.src(['./assets/public/css/*.styl',
-            '!./assets/public/css/_*.styl'])
+  gulp.src(['./assets/static/css/*.styl',
+            '!./assets/static/css/_*.styl'])
     .pipe(stylus({
       use: nib()
     }))
     .on('error', console.log)
-    .pipe(gulp.dest('./site/public/css/'))
+    .pipe(gulp.dest('./site/static/css/'))
     .pipe(livereload(server));
 });
 
@@ -32,10 +33,16 @@ gulp.task('jade', function() {
 });
 
 gulp.task('js', function() {
-  gulp.src(['./assets/public/js/**/*.js'])
+  gulp.src(['./assets/static/js/**/*.js'])
     .pipe(concat('index.js'))
-    .pipe(gulp.dest('./site/public/js'))
+    .pipe(gulp.dest('./site/static/js'))
     .pipe(livereload(server));
+});
+
+gulp.task('images', function() {
+  gulp.src('./assets/public/img/**/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('./site/public/img'))
 });
 
 gulp.task('http-server', function() {
@@ -47,26 +54,14 @@ gulp.task('http-server', function() {
   console.log('Server listening on http://localhost:9000');
 });
 
-gulp.task('watch', function() {
-  // Предварительная сборка проекта
-  gulp.run('stylus');
-  gulp.run('jade');
-  gulp.run('js');
-
-  // Подключаем Livereload
+gulp.task('watch',['stylus', 'jade', 'js', 'images', 'http-server'], function() {
   server.listen(35729, function(err) {
     if (err) return console.log(err);
 
-    gulp.watch('public/stylus/**/*.styl', function() {
-      gulp.run('stylus');
-    });
-    gulp.watch('views/**/*.jade', function() {
-      gulp.run('jade');
-    });
-
-    gulp.watch('public/js/**/*', function() {
-      gulp.run('js');
-    });
+    gulp.watch('assets/static/stylus/**/*.styl', ['stylus']);
+    gulp.watch('assets/views/**/*.jade', ['jade']);
+    gulp.watch('assets/static/js/**/*', ['js']);
+    gulp.watch('assets/static/img/**/*', ['images']);
   });
-  gulp.run('http-server');
+
 });
