@@ -13,6 +13,7 @@ gulp.task('stylus', function() {
   gulp.src(['./assets/static/css/*.styl',
             '!./assets/static/css/_*.styl'])
     .pipe(stylus({
+      'include css': true,
       use: nib()
     }))
     .on('error', console.log)
@@ -46,6 +47,12 @@ gulp.task('images', function() {
     .pipe(webserver.reload());
 });
 
+gulp.task('fonts', function() {
+  gulp.src('./assets/static/fonts/**/*')
+    .pipe(gulp.dest('./site/static/fonts'))
+    .pipe(webserver.reload());
+});
+
 gulp.task('webserver', function () {
   webserver.server({
     root: './site/',
@@ -53,7 +60,7 @@ gulp.task('webserver', function () {
   });
 });
 
-gulp.task('watch', ['stylus', 'jade', 'js', 'images', 'webserver'], function() {
+gulp.task('watch', ['stylus', 'jade', 'js', 'images', 'fonts', 'webserver'], function() {
   server.listen(9000, function(err) {
     if (err) return console.log(err);
 
@@ -61,6 +68,7 @@ gulp.task('watch', ['stylus', 'jade', 'js', 'images', 'webserver'], function() {
     gulp.watch('assets/views/**/*.jade', ['jade']);
     gulp.watch('assets/static/js/**/*', ['js']);
     gulp.watch('assets/static/img/**/*', ['images']);
+    gulp.watch('assets/static/fonts/**/*', ['images']);
   });
 
 });
