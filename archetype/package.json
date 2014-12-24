@@ -7,13 +7,12 @@
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-jade": "*",
-    "tiny-lr": "*",
     "gulp-stylus": "*",
     "nib":"*",
-    "gulp-livereload": "*",
-    "gulp-imagemin": "*",
     "gulp-concat": "*",
-    "gulp-webserver": "*",
-    "connect-livereload": "*"
+    "gulp-imagemin": "*",
+    "gulp-livereload": "*",
+    "tiny-lr": "*",
+    "gulp-connect": "*"
   }
 }
